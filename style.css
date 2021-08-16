@@ -1,0 +1,35 @@
+* {
+  margin: 0;
+  padding: 0;
+  align-items: center;
+  text-align: center;
+}
+body {
+  background-color: black;
+}
+a {
+  color: blueviolet;
+  padding: 10px 0px;
+  color: white;
+  text-decoration: none;
+}
+.header {
+  background-color: blueviolet;
+  padding: 30px 0px;
+  font-size: xx-large;
+}
+.footer {
+  padding: 10px 0px;
+  border: 1px solid white;
+}
+.center {
+  padding: 50px 0px;
+  background-color: rgb(39, 39, 39);
+  font-size: x-large;
+  height: calc(100vh - 260px);
+  width: 100vw;
+}
+.center a {
+  color: blueviolet;
+  text-decoration: underline;
+}
