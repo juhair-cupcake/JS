@@ -14,8 +14,52 @@
       </a>
     </section>
 
-    <canvas class="center" id="canvas"> </canvas>
-    <script></script>
+    <canvas id="canvas"></canvas>
+    <script>
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight - 160;
+
+      const mouse = {
+        x: undefined,
+        y: undefined,
+      };
+
+      canvas.addEventListener("mousemove", (e) => {
+        var offcet = canvas.getBoundingClientRect();
+        mouse.x = e.x - offcet.left;
+        mouse.y = e.y - offcet.top;
+
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(0,0,0,0.2)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fill;
+        ctx.closePath();
+
+        drawCircle();
+      });
+
+      //rect
+      const drawRect = () => {
+        ctx.beginPath();
+        ctx.fillStyle = "white";
+        ctx.fillRect(canvas.width / 2 - 100, canvas.height / 2 - 100, 200, 200);
+        ctx.fill();
+        ctx.closePath();
+      };
+      drawRect();
+
+      //circle
+      const drawCircle = () => {
+        ctx.beginPath();
+        ctx.strokeStyle = "blueviolet";
+        ctx.lineWidth = 5;
+        ctx.arc(mouse.x, mouse.y, 50, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.closePath();
+      };
+    </script>
 
     <section class="footer">
       <a href="https://github.com/Error6251/canvas-noobz">Bottom Text</a>
