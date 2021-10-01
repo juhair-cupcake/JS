@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cavnas-NooBz</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="header">
+      <a href="index.html">
+        <h1>Canvas-NooBz</h1>
+      </a>
+    </section>
+
+    <canvas id="canvas"></canvas>
+    <script>
+      window.onload = function () {
+        canv = document.getElementById("canvas");
+        draw = canv.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight - 160;
+        initial();
+        setInterval(loop, 1000 / 40);
+      };
+
+      function initial() {
+        dvd = new DVD();
+      }
+
+      function loop() {
+        //Background
+        draw.fillStyle = "black";
+        draw.fillRect(0, 0, canv.width, canv.height);
+
+        dvd.update();
+        dvd.check();
+      }
+
+      //Other objects
+      class DVD {
+        constructor() {
+          this.x = 0;
+          this.y = 0;
+          this.sizeX = 195;
+          this.sizeY = 80;
+          this.velX = 10;
+          this.velY = 8;
+          this.color = ["red", "white", "blue", "green"];
+          this.colNo = 0;
+        }
+
+        update() {
+          draw.fillStyle = this.color[this.colNo];
+          draw.fillRect(this.x, this.y, this.sizeX, this.sizeY);
+
+          let x = this.x;
+          let y = this.y + this.sizeY - 10;
+          draw.fillStyle = "black";
+          draw.font = "90px Calluna";
+          draw.fillText("DVD", x, y);
+
+          this.x += this.velX;
+          this.y += this.velY;
+        }
+        check() {
+          if (this.x + this.sizeX + this.velX > canv.width) {
+            this.velX -= this.velX * 2;
+            this.colNo = 0;
+          }
+          if (this.y + this.sizeY + this.velY > canv.height) {
+            this.velY -= this.velY * 2;
+            this.colNo = 1;
+          }
+          if (this.x + this.velX < 0) {
+            this.velX -= this.velX * 2;
+            this.colNo = 2;
+          }
+          if (this.y + this.velY < 0) {
+            this.velY -= this.velY * 2;
+            this.colNo = 3;
+          }
+        }
+      }
+    </script>
+
+    <section class="footer">
+      <a href="https://github.com/Error6251/canvas-noobz">Bottom Text</a>
+    </section>
+  </body>
+</html>

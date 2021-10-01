@@ -6,6 +6,7 @@
 }
 body {
   background-color: black;
+  width: 100%;
 }
 a {
   color: blueviolet;
@@ -20,16 +21,21 @@ a {
 }
 .footer {
   padding: 10px 0px;
+  margin: 0px;
   border: 1px solid white;
 }
 .center {
   padding: 50px 0px;
   background-color: rgb(39, 39, 39);
   font-size: x-large;
-  height: calc(100vh - 260px);
-  width: 100vw;
+  min-height: calc(100vh - 260px);
 }
 .center a {
   color: blueviolet;
   text-decoration: underline;
+  display: block;
+}
+#canvas {
+  padding: 0px;
+  margin: 0px;
 }
