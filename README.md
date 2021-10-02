@@ -3,4 +3,4 @@
 learning basic about JS canvas from youtube
 
 visit the page
-https://error6251.github.io/canvas-noobz/
+https://error6251.github.io/JS-noobz/
