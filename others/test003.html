@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS-NooBz</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <section class="header">
+      <a href="../index.html">
+        <h1>JS-NooBz</h1>
+      </a>
+    </section>
+
+    <canvas id="canvas"></canvas>
+    <script>
+      var keyDown = false;
+      window.onload = function () {
+        canv = document.getElementById("canvas");
+        draw = canv.getContext("2d");
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight - 160;
+        initial();
+        setInterval(loop, 1000 / 40);
+        console.log("Use 'WASD' to move");
+      };
+
+      function initial() {
+        Player = new player();
+        window.addEventListener("keydown", keyPressDown);
+        window.addEventListener("keyup", keyPressUp);
+      }
+
+      function loop() {
+        //Background
+        draw.fillStyle = "rgba(0,0,0,0.4)";
+        draw.fillRect(0, 0, canv.width, canv.height);
+
+        //Main code
+        Player.update();
+        Player.draw();
+      }
+
+      class player {
+        constructor() {
+          this.positionX = 50;
+          this.positionY = 50;
+          this.width = 90;
+          this.height = 90;
+          this.color = "rgba(255,100,0,1)";
+          this.velocityX = 0;
+          this.velocityY = 0;
+        }
+        update() {
+          this.positionX += this.velocityX;
+          this.positionY += this.velocityY;
+        }
+        draw() {
+          draw.fillStyle = this.color;
+          draw.fillRect(
+            this.positionX,
+            this.positionY,
+            this.width,
+            this.height
+          );
+        }
+      }
+
+      function keyPressDown(event) {
+        if (keyDown) {
+          return;
+        } else if (event.keyCode == 87) {
+          //w
+          Player.velocityY = -15;
+          keyDown = true;
+        } else if (event.keyCode == 83) {
+          //s
+          Player.velocityY = 15;
+          keyDown = true;
+        } else if (event.keyCode == 68) {
+          //d
+          Player.velocityX = 15;
+          keyDown = true;
+        } else if (event.keyCode == 65) {
+          //a
+          Player.velocityX = -15;
+          keyDown = true;
+        }
+      }
+
+      function keyPressUp(event) {
+        keyDown = false;
+        if (event.keyCode == 87) {
+          //w
+          Player.velocityY = 0;
+        } else if (event.keyCode == 83) {
+          //s
+          Player.velocityY = 0;
+        } else if (event.keyCode == 68) {
+          //d
+          Player.velocityX = 0;
+        } else if (event.keyCode == 65) {
+          //a
+          Player.velocityX = 0;
+        }
+      }
+
+      //end
+    </script>
+
+    <section class="footer">
+      <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
+    </section>
+  </body>
+</html>
