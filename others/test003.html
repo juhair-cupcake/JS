@@ -16,7 +16,6 @@
 
     <canvas id="canvas"></canvas>
     <script>
-      var keyDown = false;
       window.onload = function () {
         canv = document.getElementById("canvas");
         draw = canv.getContext("2d");
@@ -54,8 +53,12 @@
           this.velocityY = 0;
         }
         update() {
-          this.positionX += this.velocityX;
-          this.positionY += this.velocityY;
+          if (this.velocityX != 0 && this.velocityY != 0) {
+          } else if (this.velocityY != 0) {
+            this.positionY += this.velocityY;
+          } else if (this.velocityX != 0) {
+            this.positionX += this.velocityX;
+          }
         }
         draw() {
           draw.fillStyle = this.color;
@@ -69,29 +72,22 @@
       }
 
       function keyPressDown(event) {
-        if (keyDown) {
-          return;
-        } else if (event.keyCode == 87) {
+        if (event.keyCode == 87) {
           //w
           Player.velocityY = -15;
-          keyDown = true;
         } else if (event.keyCode == 83) {
           //s
           Player.velocityY = 15;
-          keyDown = true;
         } else if (event.keyCode == 68) {
           //d
           Player.velocityX = 15;
-          keyDown = true;
         } else if (event.keyCode == 65) {
           //a
           Player.velocityX = -15;
-          keyDown = true;
         }
       }
 
       function keyPressUp(event) {
-        keyDown = false;
         if (event.keyCode == 87) {
           //w
           Player.velocityY = 0;
