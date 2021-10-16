@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS-NooBz</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <section class="header">
+      <a href="../index.html">
+        <h1>JS-NooBz</h1>
+      </a>
+    </section>
+
+    <section id="canvas"></section>
+
+    <script src="../lib/p5.min.js"></script>
+    <script>
+      let modelX, textureX;
+
+      function preload() {
+        modelX = loadModel("../assets/bonsai.obj", true);
+        textureX = loadImage("../assets/bonsai_tex.png");
+      }
+
+      function setup() {
+        const myCanvas = createCanvas(
+          window.innerWidth,
+          window.innerHeight - 160,
+          WEBGL
+        );
+        myCanvas.parent("canvas");
+      }
+
+      function draw() {
+        camera(200, -200, 200 + sin(frameCount * 0.01) * 500, 0, 0, 0, 0, 1, 0);
+        background(30);
+        ambientLight(60);
+        directionalLight(255, 255, 255, 100, 100, 1);
+        noStroke();
+        rotateX(PI);
+        texture(textureX);
+        model(modelX);
+        emissiveMaterial(255, 255, 255);
+        rotateX(PI / 2);
+        translate(0, 0, 101);
+        plane(500, 500);
+      }
+    </script>
+
+    <section class="footer">
+      <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
+    </section>
+  </body>
+</html>
