@@ -5,22 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>JS-NooBz</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
     <section class="header">
-      <a href="index.html">
+      <a href="../index.html">
         <h1>JS-NooBz</h1>
       </a>
     </section>
 
-    <section class="center">
-      <a href="others/test001.html">First test</a>
-      <a href="others/test002.html">DVD Bounce</a>
-      <a href="others/test003.html">Basic WASD movement</a>
-      <a href="others/test004.html">P5 WebGL with a 3d model</a>
-      <a href="others/test005.html">P5 WebGL GLSL 001</a>
-    </section>
+    <section id="canvas"></section>
+
+    <script src="../lib/p5.min.js"></script>
+    <script>
+      function preload() {}
+
+      function setup() {
+        const myCanvas = createCanvas(
+          window.innerWidth,
+          window.innerHeight - 160,
+          WEBGL
+        );
+        myCanvas.parent("canvas");
+      }
+
+      function draw() {}
+    </script>
 
     <section class="footer">
       <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
