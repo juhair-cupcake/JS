@@ -8,21 +8,28 @@
     <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
+    <!-- header -->
     <section class="header">
       <a href="../index.html">
         <h1>JS-NooBz</h1>
       </a>
     </section>
 
+    <!-- load the p5 library -->
+    <script src="../lib/p5.min.js"></script>
+
+    <!-- create the canvas section -->
     <section id="canvas"></section>
 
-    <script src="../lib/p5.min.js"></script>
+    <!-- code -->
     <script>
-      let modelX, textureX;
+      let shaderCode;
 
       function preload() {
-        modelX = loadModel("../assets/bonsai.obj", true);
-        textureX = loadImage("../assets/bonsai_tex.png");
+        shaderCode = loadShader(
+          "../shader/test.vert",
+          "../shader/test005.frag"
+        );
       }
 
       function setup() {
@@ -32,33 +39,19 @@
           WEBGL
         );
         myCanvas.parent("canvas");
+        rectMode(CENTER);
       }
 
       function draw() {
-        //background
-        background(30);
-
-        //Camera angle
-        camera(200, -200, 200 + sin(frameCount * 0.01) * 500, 0, 0, 0, 0, 1, 0);
-
-        //lighting
-        ambientLight(60);
-        directionalLight(255, 255, 255, 100, 100, 1);
-
-        //load model
-        noStroke();
-        rotateX(PI);
-        texture(textureX);
-        model(modelX);
-
-        //create a plane
-        emissiveMaterial(255, 255, 255);
-        rotateX(PI / 2);
-        translate(0, 0, 101);
-        plane(500, 500);
+        shader(shaderCode);
+        shaderCode.setUniform("u_mouse", [float(mouseX), float(mouseY)]);
+        shaderCode.setUniform("u_resolution", [float(width), float(height)]);
+        shaderCode.setUniform("u_time", millis() / 1000.0);
+        rect(0, 0, width, height);
       }
     </script>
 
+    <!-- footer -->
     <section class="footer">
       <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
     </section>
