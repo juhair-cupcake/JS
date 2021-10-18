@@ -8,17 +8,29 @@
     <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
+    <!-- header -->
     <section class="header">
       <a href="../index.html">
         <h1>JS-NooBz</h1>
       </a>
     </section>
 
+    <!-- load the p5 library -->
+    <script src="../lib/p5.min.js"></script>
+
+    <!-- create the canvas section -->
     <section id="canvas"></section>
 
-    <script src="../lib/p5.min.js"></script>
+    <!-- code -->
     <script>
-      function preload() {}
+      let shaderCode;
+
+      function preload() {
+        shaderCode = loadShader(
+          "../shader/test.vert",
+          "../shader/test005.frag"
+        );
+      }
 
       function setup() {
         const myCanvas = createCanvas(
@@ -27,11 +39,19 @@
           WEBGL
         );
         myCanvas.parent("canvas");
+        rectMode(CENTER);
       }
 
-      function draw() {}
+      function draw() {
+        shader(shaderCode);
+        shaderCode.setUniform("u_mouse", [float(mouseX), float(mouseY)]);
+        shaderCode.setUniform("u_resolution", [float(width), float(height)]);
+        shaderCode.setUniform("u_time", millis() / 1000.0);
+        rect(0, 0, width, height);
+      }
     </script>
 
+    <!-- footer -->
     <section class="footer">
       <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
     </section>
