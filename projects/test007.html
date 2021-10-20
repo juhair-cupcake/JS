@@ -19,10 +19,46 @@
     <script src="../lib/three.min.js"></script>
 
     <!-- create the canvas section -->
-    <section id="canvas"></section>
+    <canvas id="canvas"></canvas>
 
     <!-- code -->
-    <script></script>
+    <script>
+      //create a scene
+      const scene = new THREE.Scene();
+
+      //Red cube
+      const geometry = new THREE.BoxGeometry(1, 1, 1);
+      const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const mesh = new THREE.Mesh(geometry, material);
+      //incert the object on scene
+      scene.add(mesh);
+
+      //sizes
+      const sizes = {
+        width: 800,
+        height: 600,
+      };
+
+      //Camera
+      const camera = new THREE.PerspectiveCamera(
+        75,
+        sizes.width / sizes.height
+      );
+      camera.position.z = 3;
+      camera.position.y = 1;
+      //incert the camera on scene
+      scene.add(camera);
+
+      //Renderer
+      const my_canvas = document.getElementById("canvas");
+      const renderer = new THREE.WebGLRenderer({
+        canvas: my_canvas,
+      });
+      renderer.setSize(sizes.width, sizes.height);
+
+      //Now render the scene using the camera...
+      renderer.render(scene, camera);
+    </script>
 
     <!-- footer -->
     <section class="footer">
