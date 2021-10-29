@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS-NooBz</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <!-- header -->
+    <section class="header">
+      <a href="../index.html">
+        <h1>JS-NooBz</h1>
+      </a>
+    </section>
+
+    <!-- create the canvas section -->
+    <canvas id="canvas"></canvas>
+
+    <!-- code -->
+    <script>
+      const canvas = document.getElementById("canvas");
+      const gl = canvas.getContext("webgl");
+
+      if (!gl) {
+        throw new Error("webgl not supported");
+      }
+
+      const vertexData = [0, 1, 0, 1, -1, 0, -1, -1, 0];
+
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(vertexData),
+        gl.STATIC_DRAW
+      );
+
+      const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+      gl.shaderSource(
+        vertexShader,
+        `
+        attribute vec3 position;
+        void main(){
+          gl_Position = vec4(position, 1);
+        }
+      `
+      );
+      gl.compileShader(vertexShader);
+
+      const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+      gl.shaderSource(
+        fragmentShader,
+        `
+        void main(){
+          gl_FragColor = vec4(1,0,0,1);
+        }
+      `
+      );
+      gl.compileShader(fragmentShader);
+
+      const program = gl.createProgram();
+      gl.attachShader(program, vertexShader);
+      gl.attachShader(program, fragmentShader);
+      gl.linkProgram(program);
+
+      const positionLocation = gl.getAttribLocation(program, `position`);
+      gl.enableVertexAttribArray(positionLocation);
+      gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
+
+      gl.useProgram(program);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    </script>
+
+    <!-- footer -->
+    <section class="footer">
+      <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
+    </section>
+  </body>
+</html>
