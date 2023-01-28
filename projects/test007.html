@@ -15,50 +15,71 @@
       </a>
     </section>
 
-    <!-- load the three.js library -->
-    <script src="../lib/three.min.js"></script>
-
     <!-- create the canvas section -->
     <canvas id="canvas"></canvas>
 
     <!-- code -->
     <script>
-      //create a scene
-      const scene = new THREE.Scene();
+      //select canvas
+      const canvas = document.getElementById("canvas");
+      const gl = canvas.getContext("webgl");
 
-      //Red cube
-      const geometry = new THREE.BoxGeometry(1, 1, 1);
-      const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-      const mesh = new THREE.Mesh(geometry, material);
-      //incert the object on scene
-      scene.add(mesh);
+      //check webgl is working or not
+      if (!gl) {
+        throw new Error("webgl not supported");
+      }
 
-      //sizes
-      const sizes = {
-        width: 800,
-        height: 600,
-      };
-
-      //Camera
-      const camera = new THREE.PerspectiveCamera(
-        75,
-        sizes.width / sizes.height
+      //create the buffer
+      const vertexData = [0, 1, 0, 1, -1, 0, -1, -1, 0];
+      const buffer = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+      gl.bufferData(
+        gl.ARRAY_BUFFER,
+        new Float32Array(vertexData),
+        gl.STATIC_DRAW
       );
-      camera.position.z = 3;
-      camera.position.y = 1;
-      //incert the camera on scene
-      scene.add(camera);
 
-      //Renderer
-      //First chose a canvas
-      const my_canvas = document.getElementById("canvas");
-      const renderer = new THREE.WebGLRenderer({
-        canvas: my_canvas,
-      });
-      renderer.setSize(sizes.width, sizes.height);
+      //vertex shader code
+      const vertexShader = gl.createShader(gl.VERTEX_SHADER);
+      gl.shaderSource(
+        vertexShader,
+        `
+        attribute vec3 position;
+        void main(){
+          gl_Position = vec4(position, 1);
+        }
+      `
+      );
+      gl.compileShader(vertexShader);
 
-      //Now render the scene using the camera...
-      renderer.render(scene, camera);
+      //fragment shader code
+      const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+      gl.shaderSource(
+        fragmentShader,
+        `
+        void main(){
+          gl_FragColor = vec4(1,0,0,1);
+        }
+      `
+      );
+      gl.compileShader(fragmentShader);
+
+      //create the program
+      const program = gl.createProgram();
+
+      //add the shaders on the pogram
+      gl.attachShader(program, vertexShader);
+      gl.attachShader(program, fragmentShader);
+      gl.linkProgram(program);
+
+      //add atribute on shaders
+      const positionLocation = gl.getAttribLocation(program, `position`);
+      gl.enableVertexAttribArray(positionLocation);
+      gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
+
+      //run program
+      gl.useProgram(program);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
     </script>
 
     <!-- footer -->
