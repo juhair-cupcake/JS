@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS-NooBz</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <!-- header -->
+    <section class="header">
+      <a href="../index.html">
+        <h1>JS-NooBz</h1>
+      </a>
+    </section>
+
+    <!-- load the p5 library -->
+    <script src="../lib/p5.min.js"></script>
+
+    <!-- create the canvas section -->
+    <section id="canvas"></section>
+
+    <!-- code -->
+    <script>
+      let shaderCode;
+
+      function preload() {
+        shaderCode = loadShader(
+          "../shader/test.vert",
+          "../shader/test006.frag"
+        );
+      }
+
+      function setup() {
+        const myCanvas = createCanvas(
+          window.innerWidth,
+          window.innerHeight - 160,
+          WEBGL
+        );
+        myCanvas.parent("canvas");
+        rectMode(CENTER);
+      }
+
+      function draw() {
+        shader(shaderCode);
+        shaderCode.setUniform("u_mouse", [float(mouseX), float(mouseY)]);
+        shaderCode.setUniform("u_resolution", [float(width), float(height)]);
+        shaderCode.setUniform("u_time", millis() / 1000.0);
+        rect(0, 0, width, height);
+      }
+    </script>
+
+    <!-- footer -->
+    <section class="footer">
+      <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
+    </section>
+  </body>
+</html>
