@@ -22,9 +22,10 @@
       canvasEle.height = window.innerHeight - 160;
       canvasEle.width = window.innerWidth;
 
-      window.GLSLdrawingPAD(
+      window.draw(
         canvasEle,
-        `#ifdef GL_ES
+        `
+        #ifdef GL_ES
           precision mediump float;
         #endif
 
@@ -33,10 +34,9 @@
         uniform vec2 u_resolution;
 
         void main(){
-          //vec3 col = vec3(0.138, 0.43, 0.226);
+          //define color
           vec3 col = vec3(.33, .10, .55);
         
-          // devide color according to coordinate
           // normalize coordinate
           vec2 uv = gl_FragCoord.xy / u_resolution;
 
@@ -46,20 +46,17 @@
           //shift center 0,0 so it will be -1 to 1
           uv *= 2.;
 
-          //fix aspect ratio with over width
-          uv.x *= u_resolution.x /u_resolution.y;
-
-          //make them repeat
-          //uv *= 2.;
-          //uv = fract(uv);
-          //uv -= .5;
+          //fix aspect ratio for extra width
+          uv.x *= u_resolution.x / u_resolution.y;
 
           //distence from the center
           float d = length(uv);
 
-          //sign distance
-          //d -= 0.5;
-          d = sin((d * 8.) + (u_time / 10.)) / 8.;
+          //sign distance posetive to negetive
+          // d -= 0.5;
+          //change the deistance with time and make them repeat
+          // sin(dis * numberOfRepeat + slowerTime) / thicknessOfCenter
+          d = sin((d * 10.) + (u_time * .1)) / 15.;
           
           //make sign value to positive on both side
           d = abs(d);
@@ -69,8 +66,7 @@
           //make it inverse
           d = 0.02 / d;
           
-          col *= d;
-          gl_FragColor = vec4(col, 1.);
+          gl_FragColor = vec4(col * d, 1.);
         }
       `,
       );
@@ -79,7 +75,7 @@
 
     <!-- footer -->
     <section class="footer">
-      <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
+      <a href="https://github.com/juhair-cupcake/JS">Bottom Text</a>
     </section>
   </body>
 </html>

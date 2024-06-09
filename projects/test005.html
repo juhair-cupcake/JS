@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -28,7 +28,7 @@
       function preload() {
         shaderCode = loadShader(
           "../shader/test.vert",
-          "../shader/test005.frag"
+          "../shader/test005.frag",
         );
       }
 
@@ -36,7 +36,7 @@
         const myCanvas = createCanvas(
           window.innerWidth,
           window.innerHeight - 160,
-          WEBGL
+          WEBGL,
         );
         myCanvas.parent("canvas");
         rectMode(CENTER);
@@ -53,7 +53,7 @@
 
     <!-- footer -->
     <section class="footer">
-      <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
+      <a href="https://github.com/juhair-cupcake/JS">Bottom Text</a>
     </section>
   </body>
 </html>

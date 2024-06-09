@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -36,7 +36,7 @@
       gl.bufferData(
         gl.ARRAY_BUFFER,
         new Float32Array(vertexData),
-        gl.STATIC_DRAW
+        gl.STATIC_DRAW,
       );
 
       //vertex shader code
@@ -48,7 +48,7 @@
         void main(){
           gl_Position = vec4(position, 1);
         }
-      `
+      `,
       );
       gl.compileShader(vertexShader);
 
@@ -60,7 +60,7 @@
         void main(){
           gl_FragColor = vec4(1,0,0,1);
         }
-      `
+      `,
       );
       gl.compileShader(fragmentShader);
 
@@ -84,7 +84,7 @@
 
     <!-- footer -->
     <section class="footer">
-      <a href="https://github.com/Error6251/JS-noobz">Bottom Text</a>
+      <a href="https://github.com/juhair-cupcake/JS">Bottom Text</a>
     </section>
   </body>
 </html>
