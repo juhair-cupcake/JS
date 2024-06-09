@@ -33,7 +33,8 @@
         uniform vec2 u_resolution;
 
         void main(){
-          vec3 col = vec3(1.0, 0.0, 0.0);
+          //vec3 col = vec3(0.138, 0.43, 0.226);
+          vec3 col = vec3(.33, .10, .55);
         
           // devide color according to coordinate
           // normalize coordinate
@@ -47,6 +48,11 @@
 
           //fix aspect ratio with over width
           uv.x *= u_resolution.x /u_resolution.y;
+
+          //make them repeat
+          //uv *= 2.;
+          //uv = fract(uv);
+          //uv -= .5;
 
           //distence from the center
           float d = length(uv);
