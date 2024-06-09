@@ -16,13 +16,15 @@
     </section>
 
     <!-- main-code-starts -->
-    <script src="../lib/glslDraw.js"></script>
+    <!-- <script src=></script> -->
     <canvas id="canvasEle"></canvas>
-    <script>
+    <script type="module">
+      import draw from "../lib/glslDraw.mjs";
+
       canvasEle.height = window.innerHeight - 160;
       canvasEle.width = window.innerWidth;
 
-      window.draw(
+      draw(
         canvasEle,
         `
         #ifdef GL_ES
@@ -36,13 +38,13 @@
         void main(){
           //define color
           vec3 col = vec3(.33, .10, .55);
-        
+
           // normalize coordinate
           vec2 uv = gl_FragCoord.xy / u_resolution;
 
           //make them on center
           uv -= 0.5;
-          
+
           //shift center 0,0 so it will be -1 to 1
           uv *= 2.;
 
@@ -57,15 +59,15 @@
           //change the deistance with time and make them repeat
           // sin(dis * numberOfRepeat + slowerTime) / thicknessOfCenter
           d = sin((d * 10.) + (u_time * .1)) / 15.;
-          
+
           //make sign value to positive on both side
           d = abs(d);
-          
+
           //normalize it to trim noise
           //d = smoothstep(0., 0.1, d);
           //make it inverse
           d = 0.02 / d;
-          
+
           gl_FragColor = vec4(col * d, 1.);
         }
       `,
