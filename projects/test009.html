@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -15,41 +15,61 @@
       </a>
     </section>
 
-    <!-- load the p5 library -->
-    <script src="../lib/p5.min.js"></script>
-
-    <!-- create the canvas section -->
-    <section id="canvas"></section>
-
-    <!-- code -->
+    <!-- main-code-starts -->
+    <script src="../lib/glslDraw.js"></script>
+    <canvas id="canvasEle"></canvas>
     <script>
-      let shaderCode;
+      canvasEle.height = window.innerHeight - 160;
+      canvasEle.width = window.innerWidth;
 
-      function preload() {
-        shaderCode = loadShader(
-          "../shader/test.vert",
-          "../shader/test006.frag"
-        );
-      }
+      window.GLSLdrawingPAD(
+        canvasEle,
+        `#ifdef GL_ES
+          precision mediump float;
+        #endif
 
-      function setup() {
-        const myCanvas = createCanvas(
-          window.innerWidth,
-          window.innerHeight - 160,
-          WEBGL
-        );
-        myCanvas.parent("canvas");
-        rectMode(CENTER);
-      }
+        uniform float u_time;
+        uniform vec2 u_mouse;
+        uniform vec2 u_resolution;
 
-      function draw() {
-        shader(shaderCode);
-        shaderCode.setUniform("u_mouse", [float(mouseX), float(mouseY)]);
-        shaderCode.setUniform("u_resolution", [float(width), float(height)]);
-        shaderCode.setUniform("u_time", millis() / 1000.0);
-        rect(0, 0, width, height);
-      }
+        void main(){
+          vec3 col = vec3(1.0, 0.0, 0.0);
+        
+          // devide color according to coordinate
+          // normalize coordinate
+          vec2 uv = gl_FragCoord.xy / u_resolution;
+
+          //make them on center
+          uv -= 0.5;
+          
+          //shift center 0,0 so it will be -1 to 1
+          uv *= 2.;
+
+          //fix aspect ratio with over width
+          uv.x *= u_resolution.x /u_resolution.y;
+
+          //distence from the center
+          float d = length(uv);
+
+          //sign distance
+          //d -= 0.5;
+          d = sin((d * 8.) + (u_time / 10.)) / 8.;
+          
+          //make sign value to positive on both side
+          d = abs(d);
+          
+          //normalize it to trim noise
+          //d = smoothstep(0., 0.1, d);
+          //make it inverse
+          d = 0.02 / d;
+          
+          col *= d;
+          gl_FragColor = vec4(col, 1.);
+        }
+      `,
+      );
     </script>
+    <!-- main-code-ends -->
 
     <!-- footer -->
     <section class="footer">
