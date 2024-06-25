@@ -19,13 +19,13 @@
     <!-- <script src=></script> -->
     <canvas id="canvasEle"></canvas>
     <script type="module">
-      import draw from "../lib/glslDraw.mjs";
+      import { glslDraw } from "../lib/webgl-utils.mjs";
 
-      canvasEle.height = window.innerHeight - 160;
-      canvasEle.width = window.innerWidth;
+      window.canvasEle.height = window.innerHeight - 160;
+      window.canvasEle.width = window.innerWidth;
 
-      draw(
-        canvasEle,
+      glslDraw(
+        window.canvasEle,
         `
         #ifdef GL_ES
           precision mediump float;

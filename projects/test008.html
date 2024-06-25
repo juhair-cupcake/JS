@@ -8,27 +8,70 @@
     <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
+    <!-- header -->
     <section class="header">
       <a href="../index.html">
         <h1>JS-NooBz</h1>
       </a>
     </section>
 
-    <section id="canvas"></section>
+    <!-- main-code-starts -->
+    <!-- <script src=></script> -->
+    <canvas id="notiCanvas"></canvas>
+    <script type="module">
+      import { compiler } from "../lib/webgl-utils.mjs";
 
-    <script src="../lib/p5.min.js"></script>
-    <script>
-      function setup() {
-        createCanvas(500, 500);
-        background("red");
-      }
+      window.notiCanvas.height = window.innerHeight - 160;
+      window.notiCanvas.width = window.innerWidth;
 
-      function draw() {
-        fill("black");
-        ellipse(mouseX, mouseY, 55, 55);
-      }
+      const gl = window.notiCanvas.getContext("webgl", {
+        preserveDrawingBuffer: true,
+      });
+
+      const vShader = `
+        attribute vec4 position;
+        attribute float size;
+        
+        void main() {
+          gl_Position = position;
+          gl_PointSize = size;
+        }
+      `;
+      const fShader = `
+        precision mediump float;
+        uniform vec4 color;
+
+        void main() {
+          float d = distance(gl_PointCoord, vec2(0.5));
+          
+          if(d < .5) gl_FragColor = (color * d) * 2.;
+          else discard;
+        }
+      `;
+
+      const program = compiler(gl, vShader, fShader);
+      //attributes
+      const pos = gl.getAttribLocation(program, "position");
+      const size = gl.getAttribLocation(program, "size");
+      const color = gl.getUniformLocation(program, "color");
+
+      gl.clearColor(0, 0, 0, 1);
+      // gl.clear(gl.COLOR_BUFFER_BIT);
+
+      gl.vertexAttrib1f(size, 80);
+
+      setInterval(() => {
+        const posVal = [Math.random() * 2 - 1, Math.random() * 2 - 1, 0, 1];
+        const colorVal = [Math.random(), Math.random(), Math.random(), 1];
+
+        gl.vertexAttrib4fv(pos, posVal);
+        gl.uniform4fv(color, colorVal);
+        gl.drawArrays(gl.POINTS, 0, 1);
+      }, 500);
     </script>
+    <!-- main-code-ends -->
 
+    <!-- footer -->
     <section class="footer">
       <a href="https://github.com/juhair-cupcake/JS">Bottom Text</a>
     </section>

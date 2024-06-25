@@ -8,81 +8,27 @@
     <link rel="stylesheet" href="../style.css" />
   </head>
   <body>
-    <!-- header -->
     <section class="header">
       <a href="../index.html">
         <h1>JS-NooBz</h1>
       </a>
     </section>
 
-    <!-- create the canvas section -->
-    <canvas id="canvas"></canvas>
-
-    <!-- code -->
+    <section id="canvas"></section>
+    <script src="../lib/p5.min.js"></script>
     <script>
-      //select canvas
-      const canvas = document.getElementById("canvas");
-      const gl = canvas.getContext("webgl");
-
-      //check webgl is working or not
-      if (!gl) {
-        throw new Error("webgl not supported");
+      function setup() {
+        const myCanvas = createCanvas(500, 500);
+        myCanvas.parent("canvas");
+        background("red");
       }
 
-      //create the buffer
-      const vertexData = [0, 1, 0, 1, -1, 0, -1, -1, 0];
-      const buffer = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-      gl.bufferData(
-        gl.ARRAY_BUFFER,
-        new Float32Array(vertexData),
-        gl.STATIC_DRAW,
-      );
-
-      //vertex shader code
-      const vertexShader = gl.createShader(gl.VERTEX_SHADER);
-      gl.shaderSource(
-        vertexShader,
-        `
-        attribute vec3 position;
-        void main(){
-          gl_Position = vec4(position, 1);
-        }
-      `,
-      );
-      gl.compileShader(vertexShader);
-
-      //fragment shader code
-      const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-      gl.shaderSource(
-        fragmentShader,
-        `
-        void main(){
-          gl_FragColor = vec4(1,0,0,1);
-        }
-      `,
-      );
-      gl.compileShader(fragmentShader);
-
-      //create the program
-      const program = gl.createProgram();
-
-      //add the shaders on the pogram
-      gl.attachShader(program, vertexShader);
-      gl.attachShader(program, fragmentShader);
-      gl.linkProgram(program);
-
-      //add atribute on shaders
-      const positionLocation = gl.getAttribLocation(program, `position`);
-      gl.enableVertexAttribArray(positionLocation);
-      gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
-
-      //run program
-      gl.useProgram(program);
-      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      function draw() {
+        fill("black");
+        ellipse(mouseX, mouseY, 55, 55);
+      }
     </script>
 
-    <!-- footer -->
     <section class="footer">
       <a href="https://github.com/juhair-cupcake/JS">Bottom Text</a>
     </section>
