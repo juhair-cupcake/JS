@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS-NooBz</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <!-- header -->
+    <section class="header">
+      <a href="../index.html">
+        <h1>JS-NooBz</h1>
+      </a>
+    </section>
+
+    <!-- main-code-starts -->
+    <!-- <script src=></script> -->
+    <canvas id="canvasEle"></canvas>
+    <script type="module">
+      import { glslDraw } from "../lib/webgl-utils.mjs";
+
+      window.canvasEle.height = window.innerHeight - 160;
+      window.canvasEle.width = window.innerWidth;
+
+      glslDraw(
+        window.canvasEle,
+        `
+        #ifdef GL_ES
+          precision mediump float;
+        #endif
+
+        uniform float u_time;
+        uniform vec2 u_mouse;
+        uniform vec2 u_resolution;
+
+        float random(vec2 st) {
+          // return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * 43758.5453123);
+          return fract(sin(dot(st.xy, vec2(12.9898, 78.233))) * u_time);
+        }
+
+        void main(){
+          vec2 uv = (gl_FragCoord.xy / u_resolution);
+          vec2 grid_uv = vec2(
+            floor(uv.x*10.)/ 10.,
+            floor(uv.y*10.)/ 10.
+          );
+
+          float strength = random(grid_uv);
+          gl_FragColor = vec4(vec3(strength), 1);
+        }
+      `,
+      );
+    </script>
+    <!-- main-code-ends -->
+
+    <!-- footer -->
+    <section class="footer">
+      <a href="https://github.com/juhair-cupcake/JS">Bottom Text</a>
+    </section>
+  </body>
+</html>
