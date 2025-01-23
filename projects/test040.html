@@ -47,7 +47,7 @@
 
         void main(){
           vec2 uv = (gl_FragCoord.xy / u_resolution);
-          vec2 rotated_uv = rotate(uv, (u_time * (PI * .001)), vec2(.5));
+          vec2 rotated_uv = rotate(uv, ((u_time * .001) * PI), vec2(.5));
 
           vec2 light_uv_x = vec2(rotated_uv.x * .1 + .45, rotated_uv.y * .5 + .25);
           float light_x = 0.015 / distance(light_uv_x, vec2(.5));
