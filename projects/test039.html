@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JS-NooBz</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+
+<body>
+  <!-- header -->
+  <section class="header">
+    <a href="../index.html">
+      <h1>JS-NooBz</h1>
+    </a>
+  </section>
+
+  <!-- main-code-starts -->
+  <!-- <script src=></script> -->
+  <canvas id="canvasEle"></canvas>
+  <script type="module">
+    import { glslDraw } from "../lib/webgl-utils.mjs";
+
+    window.canvasEle.height = window.innerHeight - 160;
+    window.canvasEle.width = window.innerWidth;
+
+    glslDraw(
+      window.canvasEle,
+      `
+        #ifdef GL_ES
+          precision mediump float;
+        #endif
+
+        uniform float u_time;
+        uniform vec2 u_mouse;
+        uniform vec2 u_resolution;
+
+        void main(){
+          vec2 uv = (gl_FragCoord.xy / u_resolution);
+          vec2 light_uv_x = vec2(uv.x * .1 + .45, uv.y * .5 + .25);
+          float light_x = 0.015 / distance(light_uv_x, vec2(.5));
+
+          vec2 light_uv_y = vec2(uv.x * .5 + .25, uv.y * .1 + .45);
+          float light_y = 0.015 / distance(light_uv_y, vec2(.5));
+
+          float strength = light_x * light_y;
+          gl_FragColor = vec4(vec3(strength), 1);
+        }
+      `,
+    );
+  </script>
+  <!-- main-code-ends -->
+
+  <!-- footer -->
+  <section class="footer">
+    <a href="https://github.com/juhair-cupcake/JS">Bottom Text</a>
+  </section>
+</body>
+
+</html>
