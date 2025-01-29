@@ -41,8 +41,8 @@
         void main(){
           vec2 uv = (gl_FragCoord.xy / u_resolution);
           vec2 waved_uv = vec2(
-            uv.x,
-            uv.y + sin(uv.x * u_time * .005) *.1
+            uv.x + sin(uv.y * 100.) *.1,
+            uv.y + sin(uv.x * 100.) *.1
           );
 
           float strength = 1. - step(.01, abs(distance(waved_uv, vec2(.5)) - .25));

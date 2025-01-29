@@ -40,12 +40,13 @@
 
         void main(){
           vec2 uv = (gl_FragCoord.xy / u_resolution);
-          vec2 waved_uv = vec2(
-            uv.x,
-            uv.y + sin(uv.x * u_time * .005) *.1
-          );
 
-          float strength = 1. - step(.01, abs(distance(waved_uv, vec2(.5)) - .25));
+          float angle = (atan(uv.x - .5, uv.y - .5) / (PI * 2.)) + .5;
+          float sin_angle = sin(angle * (u_time * .01));
+
+          float radius = .25 + (sin_angle * .05);
+          float strength = 1. - step(0.01, abs( distance(uv,vec2(.5)) - radius ));
+
           gl_FragColor = vec4(vec3(strength), 1);
         }
       `,
